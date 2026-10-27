@@ -1,0 +1,6 @@
+﻿data/
+*.rda
+outputs/artefacts.joblib
+hf_release/
+__pycache__/
+.pytest_cache/
