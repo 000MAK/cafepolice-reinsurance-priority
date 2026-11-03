@@ -33,7 +33,7 @@ row = {p: T[T["priority"] == p].iloc[0] for p in (10.0, 30.0, o["priority"])}
 
 TITLE = "Reasürans Dilimini Nereye Koymalı?"
 SUBTITLE = "Danimarka yangın hasarlarıyla hasar fazlası (XL) muafiyetinin uç değer analizi"
-BYLINE = "Mehmet Ali Kaya · Veri Yönetimi Uzmanı, Yönetim Bilişim Sistemleri Doktora Adayı, İstatistik Yüksek Lisans"
+BYLINE = "Mehmet Ali Kaya · Veri Bilimci & Aktüeryal Modelleme Uzmanı, MSc İstatistik, PhD Adayı (Yönetim Bilişim Sistemleri)"
 SPOT = (f"On bir yılın {tr(M['claims'])} yangın hasarıyla hasar fazlası korumasının muafiyetini hesapladım. "
         f"Doğru muafiyet tek bir sayı değil, {tr(o['within_5pct_range'][0], 1).rstrip('0').rstrip(',')}–{tr(o['within_5pct_range'][1])} milyon DKK arasında geniş ve düz bir vadi; "
         "asıl risk, vadinin yerini geçmiş veriden okurken trendi unutmak.")

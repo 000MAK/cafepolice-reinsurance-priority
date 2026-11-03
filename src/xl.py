@@ -46,6 +46,13 @@ def fit_gpd(excess: np.ndarray) -> dict:
     return {"xi": float(shape), "sigma": float(scale), "n": int(len(excess))}
 
 
+def fit_lognormal(excess: np.ndarray) -> dict:
+    """Lognormal kuyruk benchmark'ı (alternatif kuyruk varsayımı, AIC ile)."""
+    s, loc, scale = stats.lognorm.fit(excess, floc=0)
+    ll = float(np.sum(stats.lognorm.logpdf(excess, s, loc=loc, scale=scale)))
+    return {"s": float(s), "scale": float(scale), "aic": float(2 * 2 - 2 * ll), "n": int(len(excess))}
+
+
 def expected_excess(x: np.ndarray, u: float, gpd: dict, p: float) -> float:
     """E[(X - p)+] per claim: empirical below u, GPD above u."""
     xi, sigma = gpd["xi"], gpd["sigma"]
@@ -109,6 +116,12 @@ def run(data_path: Path, out_dir: Path, years: int = 50_000) -> tuple[dict, dict
     # 1. tail
     gpd = fit_gpd(x[x > U] - U)
     res["gpd"] = gpd
+    ln = fit_lognormal(x[x > U] - U)
+    gpd_ll = float(np.sum(stats.genpareto.logpdf(x[x > U] - U, gpd["xi"], scale=gpd["sigma"])))
+    res["tail_benchmark"] = {"gpd_aic": round(2 * 2 - 2 * gpd_ll, 2),
+                              "lognormal_aic": round(ln["aic"], 2),
+                              "lognormal_s": round(ln["s"], 4),
+                              "winner": "GPD" if (2 * 2 - 2 * gpd_ll) < ln["aic"] else "Lognormal"}
     res["p_exceed_u"] = float((x > U).mean())
     res["hill_xi_k_eq_n_u"] = hill(x, gpd["n"])
     res["threshold_sensitivity"] = {str(u): {"n": int((x > u).sum()), **{k: v for k, v in fit_gpd(x[x > u] - u).items() if k != "n"}}

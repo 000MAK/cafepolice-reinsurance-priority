@@ -31,6 +31,12 @@
     "sigma": 6.9754506314014675,
     "n": 109
   },
+  "tail_benchmark": {
+    "gpd_aic": 753.79,
+    "lognormal_aic": 764.78,
+    "lognormal_s": 1.5797,
+    "winner": "GPD"
+  },
   "p_exceed_u": 0.050299953853253344,
   "hill_xi_k_eq_n_u": 0.6312180329309509,
   "threshold_sensitivity": {
